@@ -1,0 +1,136 @@
+.dashboard {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/downloads.jpg'); /* Correct path */
+  background-repeat: repeat;
+  background-size: auto;
+  filter: blur(3px) brightness(0.85);
+  z-index: -1;
+}
+
+
+.dashboard-header {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  color: white;
+  background-color: rgba(78, 166, 134, 0.144); /* ✅ same color but with transparency */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* subtle shadow */
+  backdrop-filter: blur(5px); /* ✅ optional: adds glassy blur */
+}
+
+.username {
+  font-size: 1.5rem;
+  margin: 0;
+  line-height: 1.2;
+  text-align: left;
+  font-family: 'Playfair Display', serif; /* use a beautiful font */
+  color:  #4EA685;
+}
+
+.username .line1 {
+  font-weight: bold;
+  font-size: 1.6rem;
+    color:  #184434;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.username .line2 {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color:   #184434;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.add-note-button {
+  background-color: #184434;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.7rem 1.8rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.add-note-button:hover {
+  background-color:#008051;
+  transform: scale(1.1); 
+}
+
+/* Centered Search Bar */
+.search-bar-wrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.419);
+  border: 1.3px solid #fff;
+  border-radius: 25px;
+  padding: 0.5rem 1rem;
+  width: 600px;
+  height: 50px;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  color:#053825;
+  font-size: 1.2rem;
+  width: 100%;
+  outline: none;
+  margin-left: 0.5rem;
+}
+
+.search-icon {
+  color: #093d2a;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+
+
+.notes-container {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.note-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+
+.no-notes {
+   top: 80px;
+  text-align: center;
+  color: #888;
+  margin-top: 2rem;
+}
