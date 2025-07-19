@@ -31,6 +31,7 @@ const SignInForm = ({ toggleForm }) => {
     console.log(res);
     setUser(res.data.user);
     localStorage.setItem("jwtToken",res.data.token);
+    localStorage.setItem("user",JSON.stringify(res.data.user));
     navigate('/dashboard');
 
   }catch(error){

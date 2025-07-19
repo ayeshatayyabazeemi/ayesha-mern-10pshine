@@ -66,5 +66,24 @@ if (!userData) {
 };
 
 
-module.exports={create};
+const read = async (req, res) => {
+  try {
+    const user_id = req.query.user; 
+    console.log('useris: '+user_id);
+    const notes = await Note.find({ user: user_id}).sort({position:-1}); 
+
+    const count = await Note.countDocuments({ user: user_id });
+
+    logger.info(`Notes for user: ${user_id} have been read`);
+
+    res.status(200).json({ count, notes }); 
+  } catch (error) {
+    logger.error(`Read error: ${error.message}`);
+    res.status(500).json({ message: "There is an error in reading notes" });
+  }
+};
+
+
+
+module.exports={create,read};
 
