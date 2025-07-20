@@ -1,0 +1,127 @@
+.notes-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 16px;
+  border-radius: 12px;
+  margin: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 180px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.note-text.preview {
+  max-height: 4.5em; /* 3 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5em;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.911);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 90%;
+
+  height: 95vh;
+  overflow-y: auto;
+  box-shadow: 0 0 15px black;
+}
+
+.close-btn {
+   position: absolute;
+  top: 10px;
+  right: 90px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4EA685;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.note-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+
+.notes-card:hover {
+  transform: scale(1.02);
+}
+
+.note-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* only show 3 lines */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+.divider {
+  height: 2px;
+  background-color: #999797;
+  margin: 1px 0 6px;
+  
+}
+
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.note-dates small {
+  display: block;
+  color: #666;
+  font-size: 12px;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+}
+
+.icon {
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+
+.icon.edit:hover {
+  color: #4EA685;
+}
+
+.icon.delete:hover {
+  color: #e74c3c;
+}

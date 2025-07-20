@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {
   create,
- 
+  read
 } = require('../controllers/noteController');
 
 const authNote = require('../middleware/auth');
@@ -15,6 +15,6 @@ router.post('/create', create);
 // router.delete('/remove', remove);
 // router.put('/update', updateNote);
 // router.get('/search', search);
-// router.get('/read', read);
+router.get('/read', read);
 
 module.exports = router;
