@@ -6,6 +6,7 @@ import './AddNote.css';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
 import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
 
 const EditableTitle = ({ title, setTitle }) => {
   const [isEditing, setIsEditing] = useState(true);
@@ -41,9 +42,13 @@ const EditableTitle = ({ title, setTitle }) => {
 
 const AddNote = () => {
   const { user } = useAuth();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const location = useLocation();
 
+  const editMode = location.state?.mode === 'edit';
+  const noteData = location.state?.note || {};
+  console.log(noteData.title)
+  const [title, setTitle] = useState(noteData.title || '');
+  const [content, setContent] = useState(noteData.content || '');
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
@@ -91,9 +96,39 @@ const AddNote = () => {
 }
   };
 
+  const handleupdate=async()=>{
+    const token = localStorage.getItem('jwtToken');
+    const cleanHTML = DOMPurify.sanitize(content);
+    console.log(cleanHTML);
+    console.log(noteData._id)
+    try {
+      const res = await axios.put('http://localhost:5000/api/note/update', {
+      note_id: noteData._id,
+      subject: title,
+      note: cleanHTML
+    },
+            {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      console.log('Note saved:', res.data);
+  
+      toast.success("Note updated successful!");
+    } catch (error) {
+ 
+ const errMsg = error.response?.data?.message || "Error in updating note.";
+  
+  toast.error(errMsg); // ✅ show custom backend error
+  console.error("Error saving note:", errMsg);
+}
+  }
+
   return (
     <div className="add-note-page">
-      <button onClick={handleSave} className="save-button">Save</button>
+      <button onClick={editMode?handleupdate:handleSave} className="save-button">{editMode?'update':'Save'}</button>
       <div className="background" />
 
       <div className="note-card">

@@ -3,11 +3,16 @@ import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { motion, AnimatePresence } from 'framer-motion';
 import './NoteCard.css';
+import {toast} from 'react-toastify';
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const NoteCard = ({ note}) => {
+
+const NoteCard = ({ note, onDeleteSuccess}) => {
   const [showModal, setShowModal] = useState(false);
   const isupdated = note.createdAt !== note.updatedAt;
-
+  const navigate=useNavigate();
   const openModal = () => setShowModal(true);
   const closeModal = (e) => {
     if (e.target.classList.contains('modal-overlay')) {
@@ -16,10 +21,44 @@ const NoteCard = ({ note}) => {
   };
 
   const onEdit=()=>{
-
+    navigate('/add-note', {
+    state: {
+      mode: 'edit',
+      note: {
+        title: note.subject,
+        content: note.note, // or note.content based on your backend
+        _id: note._id
+      }
+  }})
   }
   const onDelete=()=>{
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'No'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      try{
+        const token=localStorage.getItem('jwtToken');
+      const res= axios.delete( `http://localhost:5000/api/note/remove?note_id=${note._id}`,
+       { headers:{
+        Authorization: `Bearer ${token}`
 
+        }}
+          
+      )
+     
+      toast.success('Note deleted');
+       onDeleteSuccess();
+    }catch(error){
+      console.error('Failed to delete note:', error);
+    }
+    };
+
+  });
   }
 
 

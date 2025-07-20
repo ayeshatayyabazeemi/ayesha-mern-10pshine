@@ -84,6 +84,41 @@ const read = async (req, res) => {
 };
 
 
+const remove = async (req, res, next) => {
+  try {
+    const note_id  = req.query.note_id; 
+    const note = await Note.findById(note_id);
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
 
-module.exports={create,read};
+    await note.deleteOne();
+    logger.info(`Note ${note_id} has been deleted`);
+    res.status(200).json({ message: 'Note has been deleted' });
+
+  } catch (error) {
+    logger.error(`Delete error: ${error.message}`);
+    res.status(500).json({ message: "There is an error in deleting a note" });
+  }
+};
+
+
+const updateNote = async (req, res) => {
+  console.log('update note logg')
+  const { note_id, ...fieldsToUpdate } = req.body;
+
+  try {
+    const updatedNote = await Note.findByIdAndUpdate(
+      note_id,
+      { $set: fieldsToUpdate },
+      { new: true }
+    );
+    res.status(200).json(updatedNote);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating note" });
+  }
+};
+
+
+module.exports={create,read,remove,updateNote};
 

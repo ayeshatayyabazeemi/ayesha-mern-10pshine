@@ -7,6 +7,7 @@ import axios from 'axios';
 import NoteCard from './NoteCard';
 
 const Dashboard = () => {
+  const [refreshKey, setRefreshKey] = useState(0);
   const  user  = JSON.parse(localStorage.getItem('user'));
   console.log(user)
   console.log(user.id);
@@ -41,13 +42,14 @@ const Dashboard = () => {
       setNotes(res.data.notes || []);
       console.log(res.data.notes);
       console.log(notes);
+      console.log(refreshKey)
     } catch (err) {
       console.error('Failed to fetch notes:', err);
     }
   };
 
   if (user.username) fetchNotes();
-}, []);
+}, [refreshKey]);
 
 
 
@@ -85,7 +87,7 @@ const Dashboard = () => {
    <NoteCard
   key={note._id}
   note={note}
- 
+ onDeleteSuccess={ () => setRefreshKey(prev => prev + 1)} 
  
 />)
   ) : (
