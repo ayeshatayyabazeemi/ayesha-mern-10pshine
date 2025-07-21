@@ -7,7 +7,7 @@ import {toast} from 'react-toastify';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import {BASE_URL } from '../config.js';
 
 const NoteCard = ({ note, onDeleteSuccess}) => {
   const [showModal, setShowModal] = useState(false);
@@ -43,7 +43,7 @@ const NoteCard = ({ note, onDeleteSuccess}) => {
     if (result.isConfirmed) {
       try{
         const token=localStorage.getItem('jwtToken');
-      const res= axios.delete( `http://localhost:5000/api/note/remove?note_id=${note._id}`,
+      const res= axios.delete(`${BASE_URL}/api/note/remove?note_id=${note._id}`,
        { headers:{
         Authorization: `Bearer ${token}`
 

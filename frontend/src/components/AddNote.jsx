@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useAuth } from './AuthContext';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
-
+import {BASE_URL } from '../config.js';
 const EditableTitle = ({ title, setTitle }) => {
   const [isEditing, setIsEditing] = useState(true);
 
@@ -41,7 +41,7 @@ const EditableTitle = ({ title, setTitle }) => {
 };
 
 const AddNote = () => {
-  const { user } = useAuth();
+   const  user  = JSON.parse(localStorage.getItem('user'));
   const location = useLocation();
 
   const editMode = location.state?.mode === 'edit';
@@ -70,9 +70,9 @@ const AddNote = () => {
     console.log(cleanHTML);
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/note/create',
+        `${BASE_URL}/api/note/create`,
         {
-          username: user?.username,
+          username: user.username,
           title: title,
           note: cleanHTML
         },
@@ -102,7 +102,7 @@ const AddNote = () => {
     console.log(cleanHTML);
     console.log(noteData._id)
     try {
-      const res = await axios.put('http://localhost:5000/api/note/update', {
+      const res = await axios.put(`${BASE_URL}/api/note/update`, {
       note_id: noteData._id,
       subject: title,
       note: cleanHTML
