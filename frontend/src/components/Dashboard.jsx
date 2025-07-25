@@ -5,9 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import axios from 'axios';
 import NoteCard from './NoteCard';
+import {BASE_URL } from '../config.js';
+import {FiLogOut } from "react-icons/fi";
 
 const Dashboard = () => {
   const [refreshKey, setRefreshKey] = useState(0);
+   const [searchnote, setSearchnote] = useState('');
+   const [suggestions, setSuggestions] = useState([]);
   const  user  = JSON.parse(localStorage.getItem('user'));
   console.log(user)
   console.log(user.id);
@@ -21,6 +25,13 @@ const Dashboard = () => {
     navigate('/add-note');
   };
 
+  
+  const handleLogout = () => {
+    localStorage.clear(); // clear all local storage
+    navigate("/"); // navigate to AuthForm
+  };
+
+
 
   
   useEffect(() => {
@@ -33,7 +44,7 @@ const Dashboard = () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:5000/api/note/read?user=${user.id}`, {
+      const res = await axios.get(`${BASE_URL}/api/note/read?user=${user.id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -52,9 +63,42 @@ const Dashboard = () => {
 }, [refreshKey]);
 
 
+const debouncedSearch = async () => {
+  const token = localStorage.getItem('jwtToken');
+  try {
+    const res = await axios.get(`${BASE_URL}/api/note/search?query=${searchnote}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    setNotes(res.data || []);
+  } catch (err) {
+    console.error('Debounced search failed:', err);
+  }
+};
 
 
 
+const search=async()=>{
+   await debouncedSearch(); 
+};
+
+
+
+
+useEffect(() => {
+ 
+
+  const timer = setTimeout(() => {
+    if (!searchnote.trim()) {
+     setRefreshKey(prev => prev + 1);
+    } else {
+    debouncedSearch();
+    }
+  }, 400);
+
+  return () => clearTimeout(timer);
+}, [searchnote]);
 
 
 
@@ -74,12 +118,22 @@ const Dashboard = () => {
       <div className="search-bar-wrapper">
         <div className="search-bar">
           <FiSearch className="search-icon" />
-          <input type="text" placeholder="Search notes..." />
+          <input value={searchnote}   onChange={(e) => setSearchnote(e.target.value)}
+            placeholder="Search notes..." />
         </div>
+       
+
       </div>
 
-      <button onClick={addNote} className="add-note-button">+ Note</button>
+      <div className="header-right">
+    <button onClick={addNote} className="add-note-button">+ Note</button>
+    <button onClick={handleLogout} className="logout-button" title="Logout">
+      <FiLogOut size={30} />
+    </button>
+  </div>
     </div>
+    
+ 
    
 <div className="notes-container">
   {notes.length > 0 ? (
@@ -87,7 +141,7 @@ const Dashboard = () => {
    <NoteCard
   key={note._id}
   note={note}
- onDeleteSuccess={ () => setRefreshKey(prev => prev + 1)} 
+ onDeleteSuccess={ ()=>setRefreshKey(prev => prev + 1)} 
  
 />)
   ) : (
