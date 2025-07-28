@@ -120,5 +120,29 @@ const updateNote = async (req, res) => {
 };
 
 
-module.exports={create,read,remove,updateNote};
+const search = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    const searchResults = await Note.find({
+      $or: [
+        { subject: { $regex: query, $options: 'i' } },
+       
+        { note: { $regex: query, $options: 'i' } }
+      ]
+    });
+
+    logger.info(`Search results for query: ${query}`);
+
+    res.status(200).json(searchResults);
+  } catch (error) {
+    logger.error(`Search error: ${error.message}`);
+    res.status(500).json({ message: "There is an error in searching notes" });
+  }
+};
+
+
+
+
+module.exports={create,read,remove,updateNote,search};
 

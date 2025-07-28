@@ -6,12 +6,12 @@ html, body {
   overflow-y: auto;
 }
 
-
 .page-wrapper {
   position: relative;
   min-height: 100vh;
   z-index: 0;
 }
+
 .background {
   position: absolute;
   top: 0;
@@ -28,28 +28,23 @@ html, body {
 .dashboard {
   position: relative;
   z-index: 1;
-
   padding: 20px;
 }
 
-
-
 .dashboard-header {
-  
   position: relative;
-           /* ✅ stick to the very top */
-  
   z-index: 10;
   width: 100%;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: 1rem 2rem;
   color: white;
-  background-color: rgba(78, 166, 134, 0.144); /* ✅ same color but with transparency */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* subtle shadow */
-  backdrop-filter: blur(5px); /* ✅ optional: adds glassy blur */
+  background-color: rgba(78, 166, 134, 0.144);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
 }
 
 .username {
@@ -57,21 +52,21 @@ html, body {
   margin: 0;
   line-height: 1.2;
   text-align: left;
-  font-family: 'Playfair Display', serif; /* use a beautiful font */
-  color:  #4EA685;
+  font-family: 'Playfair Display', serif;
+  color: #4EA685;
 }
 
 .username .line1 {
   font-weight: bold;
   font-size: 1.6rem;
-    color:  #184434;
+  color: #184434;
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .username .line2 {
   font-weight: bold;
   font-size: 1.2rem;
-  color:   #184434;
+  color: #184434;
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -87,15 +82,19 @@ html, body {
 }
 
 .add-note-button:hover {
-  background-color:#008051;
-  transform: scale(1.1); 
+  background-color: #008051;
+  transform: scale(1.1);
 }
 
-/* Centered Search Bar */
 .search-bar-wrapper {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 1rem;
 }
 
 .search-bar {
@@ -107,13 +106,14 @@ html, body {
   padding: 0.5rem 1rem;
   width: 600px;
   height: 50px;
+  max-width: 90vw;
 }
 
 .search-bar input {
   border: none;
   background: transparent;
-  color:#053825;
-  font-size: 1.2rem;
+  color: #053825;
+  font-size: 1.1rem;
   width: 100%;
   outline: none;
   margin-left: 0.5rem;
@@ -125,7 +125,23 @@ html, body {
   font-weight: bold;
 }
 
-/* Notes container grid */
+.search-note-button {
+  height: 50px;
+  padding: 0 20px;
+  background-color: #093d2a;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-note-button:hover {
+  background-color: #075c3d;
+}
+
 .notes-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -134,11 +150,93 @@ html, body {
   z-index: 1;
 }
 
-
 /* Fallback message */
 .no-notes {
   text-align: center;
   font-size: 18px;
   color: #777;
   grid-column: 1 / -1;
+}
+  .logout-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #444;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+/* ✅ Responsive Media Queries */
+@media (max-width: 1024px) {
+  .notes-container {
+    grid-template-columns: 1fr; /* 1 column on tablets */
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    height: auto;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .search-bar-wrapper {
+    position: static;
+    transform: none;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .search-bar {
+    width: 100%;
+    max-width: 90vw;
+  }
+
+  .add-note-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .logout-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #444;
+}
+}
+
+@media (max-width: 600px) {
+  .username .line1 {
+    font-size: 1.3rem;
+  }
+
+  .username .line2 {
+    font-size: 1rem;
+  }
+
+  .add-note-button {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .search-note-button {
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .search-bar {
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.8rem;
+  }
+
+  .search-bar input {
+    font-size: 1rem;
+    margin: 0.5rem 0 0 0;
+  }
 }
