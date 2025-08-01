@@ -5,8 +5,10 @@ const User = require('../models/user');
 const Note = require('../models/note');
 const expect = chai.expect;
 
-describe('note test cases', () => {
-  let validToken, testUser, noteId;
+describe('Notes API Integration (protected routes)', () => {
+  let validToken;
+  let testUser;
+  let noteId;
 
   before(async () => {
     testUser = await User.create({
@@ -19,7 +21,7 @@ describe('note test cases', () => {
     });
   });
 
-  it('should create a new note when token is valid', (done) => {
+  it('should create a new note when token is valid', done => {
     chai.request(app)
       .post('/api/note/create')
       .set('Authorization', `Bearer ${validToken}`)
@@ -31,65 +33,67 @@ describe('note test cases', () => {
       .end((err, res) => {
         expect(res).to.have.status(201);
         expect(res.body).to.have.property('_id');
+        expect(res.body.subject).to.equal('Test Note');
         noteId = res.body._id;
         done();
       });
   });
 
-  describe('DELETE /api/note/remove', () => {
-    before(async () => {
-      
-      if (!noteId) {
-        const newNote = await Note.create({
-          title: 'Will be deleted',
-          note: '<p>Sample</p>',
-          user: testUser._id,
-          subject: 'Will be deleted',
-          position: 1
-        });
-        noteId = newNote._id;
-      }
-    });
-
-    it('should delete a note when noteId is provided and token is valid', (done) => {
-      chai.request(app)
-        .delete('/api/note/remove')
-        .set('Authorization', `Bearer ${validToken}`)
-        .query({ note_id: noteId })  
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res.body).to.have.property('message', 'Note has been deleted');
-          done();
-        });
-    });
+  it('should update the note', done => {
+    chai.request(app)
+      .put('/api/note/update')
+      .set('Authorization', `Bearer ${validToken}`)
+      .send({
+        note_id: noteId,
+        subject: 'Updated Title',
+        note: '<p>Updated content</p>'
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('_id', noteId);
+        expect(res.body.subject).to.equal('Updated Title');
+        expect(res.body.note).to.include('Updated content');
+        done();
+      });
   });
 
-describe('GET /api/note/remove', () => {
-    before(async () => {
-      
-      if (!noteId) {
-        const newNote = await Note.create({
-          title: 'Will be read',
-          note: '<p>Sample</p>',
-          user: testUser._id,
-          subject: 'read',
-          position: 1
-        });
-        noteId = newNote._id;
-      }
-    });
-
-    it('should read notes when token is valid', (done) => {
-      chai.request(app)
-        .get('/api/note/read')
-        .set('Authorization', `Bearer ${validToken}`)
-        .query({ user: testUser._id })  
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-       
-          done();
-        });
-    });
+  it('should search notes by keyword', done => {
+    chai.request(app)
+      .get('/api/note/search')
+      .set('Authorization', `Bearer ${validToken}`)
+      .query({ query: 'Updated' })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+        const found = res.body.find(n => n._id === noteId);
+        expect(found).to.exist;
+        expect(found.subject).to.include('Updated');
+        done();
+      });
   });
 
+  it('should read notes for the user', done => {
+    chai.request(app)
+      .get('/api/note/read')
+      .set('Authorization', `Bearer ${validToken}`)
+      .query({ user: testUser._id })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('count').that.is.a('number');
+        expect(res.body).to.have.property('notes').that.is.an('array');
+        done();
+      });
+  });
+
+  it('should delete a note when noteId is provided and token is valid', done => {
+    chai.request(app)
+      .delete('/api/note/remove')
+      .set('Authorization', `Bearer ${validToken}`)
+      .query({ note_id: noteId })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('message', 'Note has been deleted');
+        done();
+      });
+  });
 });
