@@ -61,9 +61,9 @@ const SignInForm = ({ toggleForm }) => {
           <input type="password" placeholder="Password" value={formdata.password} onChange={(e) => setformdata({ ...formdata, password: e.target.value })} />
         </div>
         <button onClick={handleSignin}>Sign in</button>
-        {/* <p>
+        <p>
           <b onClick={forgetPasswors}>Forgot password?</b>
-        </p> */}
+        </p>
         <p>
           <span>Don't have an account?</span>{' '}
           <b onClick={toggleForm} className="pointer">Sign up here</b>
