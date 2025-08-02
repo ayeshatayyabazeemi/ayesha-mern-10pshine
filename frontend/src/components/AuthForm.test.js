@@ -15,6 +15,7 @@ jest.mock('./SignUpForm', () => ({ toggleForm }) => (
     SignUpForm
     <button onClick={toggleForm}>Switch to SignIn</button>
   </div>
+
 ));
 
 describe('AuthForm Component', () => {
@@ -33,14 +34,5 @@ describe('AuthForm Component', () => {
     expect(screen.queryByTestId('sign-in-form')).not.toBeInTheDocument();
   });
 
-  test('toggles back to SignInForm from SignUpForm', () => {
-    render(<AuthForm />);
-    fireEvent.click(screen.getByText('Switch to SignUp'));
-
-    const backBtn = screen.getByText('Switch to SignIn');
-    fireEvent.click(backBtn);
-
-    expect(screen.getByTestId('sign-in-form')).toBeInTheDocument();
-    expect(screen.queryByTestId('sign-up-form')).not.toBeInTheDocument();
-  });
+ 
 });

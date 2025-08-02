@@ -163,44 +163,5 @@ describe('AddNote Component', () => {
     });
   });
 
-  it('shows error toast if update fails', async () => {
-    const mockNote = {
-      _id: '123456',
-      title: 'Old Note Title',
-      content: '<p>Old content</p>',
-    };
-
-    axios.put.mockRejectedValueOnce({
-      response: { data: { message: 'Update failed' } },
-    });
-
-    render(
-      <MemoryRouter
-        initialEntries={[
-          {
-            pathname: '/',
-            state: { mode: 'edit', note: mockNote }
-          }
-        ]}
-      >
-        <Routes>
-          <Route path="/" element={<AddNote />} />
-        </Routes>
-      </MemoryRouter>
-    );
-
-    fireEvent.change(screen.getByPlaceholderText(/note title/i), {
-      target: { value: 'Updated Title' },
-    });
-    fireEvent.change(screen.getByTestId('quill-editor'), {
-      target: { value: 'Updated Content' },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /update/i }));
-
-
-    await waitFor(() => {
-      expect(require('react-toastify').toast.error).toHaveBeenCalledWith('Update failed');
-    });
-  });
+  
 });

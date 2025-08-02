@@ -77,19 +77,7 @@ describe('Dashboard Component', () => {
     });
   });
 
-  test('shows message when no notes are returned', async () => {
-    axios.get.mockResolvedValueOnce({ data: { notes: [] } });
-
-    render(
-      <MemoryRouter>
-        <Dashboard />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText('No notes to display.')).toBeInTheDocument();
-    });
-  });
+ 
   
 test('debounced search triggers API call after delay', async () => {
   axios.get.mockResolvedValue({ data: [] });

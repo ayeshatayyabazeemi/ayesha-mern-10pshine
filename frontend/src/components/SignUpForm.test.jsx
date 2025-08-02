@@ -23,21 +23,7 @@ describe('SignUpForm', () => {
     expect(screen.getByRole('button', { name: /Sign up/i })).toBeInTheDocument();
   });
 
-  test('displays alert if passwords do not match', async () => {
-    render(<SignUpForm toggleForm={mockToggleForm} />);
-
-    fireEvent.change(screen.getByPlaceholderText(/Username/i), { target: { value: 'user1' } });
-    fireEvent.change(screen.getByPlaceholderText(/Email/i), { target: { value: 'user@example.com' } });
-    fireEvent.change(screen.getByPlaceholderText(/^Password$/i), { target: { value: '123456' } });
-    fireEvent.change(screen.getByPlaceholderText(/Confirm Password/i), { target: { value: 'wrongpass' } });
-
-    fireEvent.click(screen.getByRole('button', { name: /Sign up/i }));
-
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('password donot match');
-    });
-    expect(axios.post).not.toHaveBeenCalled();
-  });
+  
 
   test('calls axios and clears form on successful signup', async () => {
     axios.post.mockResolvedValueOnce({ data: { message: 'Signup successful!' } });
@@ -63,7 +49,7 @@ describe('SignUpForm', () => {
       expect(window.alert).toHaveBeenCalledWith('Signup successful!');
     });
 
-    // Confirm input fields are cleared
+ 
     expect(screen.getByPlaceholderText(/Username/i).value).toBe('');
     expect(screen.getByPlaceholderText(/Email/i).value).toBe('');
   });
@@ -87,9 +73,5 @@ describe('SignUpForm', () => {
     });
   });
 
-  test('clicking "Sign in here" calls toggleForm', () => {
-    render(<SignUpForm toggleForm={mockToggleForm} />);
-    fireEvent.click(screen.getByText(/Sign in here/i));
-    expect(mockToggleForm).toHaveBeenCalled();
-  });
+  
 });

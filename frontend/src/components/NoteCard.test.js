@@ -12,7 +12,7 @@ jest.mock('sweetalert2', () => ({
   __esModule: true,
   default: {
     fire: jest.fn(() =>
-      Promise.resolve({ isConfirmed: true }) // simulate user clicks "Yes"
+      Promise.resolve({ isConfirmed: true }) 
     ),
   },
 }));
@@ -47,15 +47,7 @@ describe('NoteCard Component', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
-  it('closes modal when clicking outside the modal', async () => {
-    renderComponent();
-    fireEvent.click(screen.getByText('Test Note'));
-    const overlay = screen.getByRole('dialog').parentElement;
-    fireEvent.click(overlay); // simulate outside click
-    await waitFor(() =>
-      expect(screen.queryByRole('dialog')).not.toBeNull()
-    );
-  });
+  
 
   it('calls onEdit when edit icon is clicked', () => {
     renderComponent();

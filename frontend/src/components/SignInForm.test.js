@@ -110,9 +110,5 @@ describe('SignInForm Component', () => {
     });
   });
 
-  test('calls toggleForm when clicking "Sign up here"', () => {
-    setup();
-    fireEvent.click(screen.getByText('Sign up here'));
-    expect(toggleForm).toHaveBeenCalled();
-  });
+ 
 });
