@@ -163,6 +163,10 @@ html, body {
   cursor: pointer;
   color: #444;
 }
+.logout-button:hover {
+  transform: scale(1.2);
+  
+}
 .header-right {
   display: flex;
   align-items: center;

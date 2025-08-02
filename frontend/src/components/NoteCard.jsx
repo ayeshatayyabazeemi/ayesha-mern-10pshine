@@ -31,35 +31,32 @@ const NoteCard = ({ note, onDeleteSuccess}) => {
       }
   }})
   }
-  const onDelete=()=>{
-    Swal.fire({
+  const onDelete = async () => {
+  const result = await Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Yes',
     cancelButtonText: 'No'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      try{
-        const token=localStorage.getItem('jwtToken');
-      const res= axios.delete(`${BASE_URL}/api/note/remove?note_id=${note._id}`,
-       { headers:{
-        Authorization: `Bearer ${token}`
-
-        }}
-          
-      )
-     
-      toast.success('Note deleted');
-       onDeleteSuccess();
-    }catch(error){
-      console.error('Failed to delete note:', error);
-    }
-    };
-
   });
+
+  if (result.isConfirmed) {
+    try {
+      const token = localStorage.getItem('jwtToken');
+      await axios.delete(`${BASE_URL}/api/note/remove?note_id=${note._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      onDeleteSuccess(); // only call this after delete is confirmed
+      toast.success('Note deleted');
+    } catch (error) {
+      console.error('Failed to delete note:', error);
+      toast.error('Failed to delete note');
+    }
   }
+};
 
 
 
@@ -71,7 +68,7 @@ const NoteCard = ({ note, onDeleteSuccess}) => {
         <div className="divider"></div>
 
         <div
-          className="note-text"
+          className="note-text ql-editor"
           dangerouslySetInnerHTML={{ __html: note.note }}
         />
 
@@ -83,8 +80,8 @@ const NoteCard = ({ note, onDeleteSuccess}) => {
             )}
           </div>
           <div className="icons" onClick={(e) => e.stopPropagation()}>
-            <FiEdit2 onClick={ onEdit} className="icon edit" />
-            <FiTrash2 onClick={ onDelete} className="icon delete" />
+            <FiEdit2 aria-label="edit" onClick={ onEdit} className="icon edit" />
+            <FiTrash2 aria-label="delete" onClick={ onDelete} className="icon delete" />
           </div>
         </div>
       </div>
@@ -99,7 +96,7 @@ const NoteCard = ({ note, onDeleteSuccess}) => {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="modal-content"
+              className="modal-content" role="dialog" aria-modal="true"
               initial={{ y: "-100vh", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: "100vh", opacity: 0 }}
@@ -111,7 +108,7 @@ const NoteCard = ({ note, onDeleteSuccess}) => {
               <h3>{note.subject}</h3>
               <div className="divider"></div>
               <div
-                className="note-full"
+                className="note-full ql-editor"
                 dangerouslySetInnerHTML={{ __html: note.note }}
               />
             </motion.div>
