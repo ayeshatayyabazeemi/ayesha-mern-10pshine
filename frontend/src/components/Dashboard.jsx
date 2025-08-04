@@ -13,8 +13,7 @@ const Dashboard = () => {
    const [searchnote, setSearchnote] = useState('');
    const [suggestions, setSuggestions] = useState([]);
   const  user  = JSON.parse(localStorage.getItem('user'));
-  console.log(user)
-  console.log(user.id);
+
   const navigate = useNavigate();
   const [notes, setNotes] = useState([]);
 
@@ -37,7 +36,7 @@ const Dashboard = () => {
   useEffect(() => {
   const fetchNotes = async () => {
     const token = localStorage.getItem('jwtToken');
-    console.log(token);
+ 
     if (!token || !user.id) {
       console.warn('Missing token or user ID');
       return;
@@ -51,8 +50,7 @@ const Dashboard = () => {
       });
       console.log('result'+res);
       setNotes(res.data.notes || []);
-      console.log(res.data.notes);
-      console.log(notes);
+    
       console.log(refreshKey)
     } catch (err) {
       console.error('Failed to fetch notes:', err);
