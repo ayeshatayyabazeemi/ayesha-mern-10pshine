@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 import DOMPurify from 'dompurify';
 import 'react-quill/dist/quill.snow.css';
 import './AddNote.css';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
 import { toast } from 'react-toastify';
@@ -44,6 +45,7 @@ const AddNote = () => {
    const  user  = JSON.parse(localStorage.getItem('user'));
   const location = useLocation();
 
+  const navigate = useNavigate();
   const editMode = location.state?.mode === 'edit';
   const noteData = location.state?.note || {};
   console.log(noteData.title)
@@ -87,6 +89,9 @@ const AddNote = () => {
       setContent('');
       setTitle('');
       toast.success("Note Saved successful!");
+      setTimeout(() => {
+  navigate('/dashboard');
+}, 700);
     } catch (error) {
  
  const errMsg = error.response?.data?.message || "Error saving note.";
@@ -117,6 +122,9 @@ const AddNote = () => {
       console.log('Note saved:', res.data);
   
       toast.success("Note updated successful!");
+      setTimeout(() => {
+  navigate('/dashboard');
+}, 700);
     } catch (error) {
  
  const errMsg = error.response?.data?.message || "Error in updating note.";

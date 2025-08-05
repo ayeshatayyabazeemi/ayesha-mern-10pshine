@@ -122,14 +122,19 @@ const updateNote = async (req, res) => {
 
 const search = async (req, res) => {
   try {
-    const { query } = req.query;
+    const { query,user } = req.query;
 
     const searchResults = await Note.find({
+      $and:[
+        {
+      user:user
+         } ,{
       $or: [
         { subject: { $regex: query, $options: 'i' } },
        
         { note: { $regex: query, $options: 'i' } }
-      ]
+      ]}
+    ]
     });
 
     logger.info(`Search results for query: ${query}`);
