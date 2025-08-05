@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {BASE_URL } from '../config.js';
 
+
 const NoteCard = ({ note, onDeleteSuccess}) => {
   const [showModal, setShowModal] = useState(false);
   const isupdated = note.createdAt !== note.updatedAt;
@@ -64,7 +65,11 @@ const NoteCard = ({ note, onDeleteSuccess}) => {
   return (
     <>
       <div className="notes-card" onClick={openModal}>
+         <div style={{ display: "flex", justifyContent: "flex-end" }}>
+       
+      </div>
         <h3 className="note-title">{note.subject}</h3>
+      
         <div className="divider"></div>
 
         <div

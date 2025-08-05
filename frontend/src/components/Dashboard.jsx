@@ -64,7 +64,7 @@ const Dashboard = () => {
 const debouncedSearch = async () => {
   const token = localStorage.getItem('jwtToken');
   try {
-    const res = await axios.get(`${BASE_URL}/api/note/search?query=${searchnote}`, {
+    const res = await axios.get(`${BASE_URL}/api/note/search?query=${searchnote}&user=${user.id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -155,3 +155,5 @@ useEffect(() => {
 };
 
 export default Dashboard;
+
+

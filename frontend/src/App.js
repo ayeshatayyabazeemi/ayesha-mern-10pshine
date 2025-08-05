@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './components/Dashboard';
 import AddNote from './components/AddNote'; 
-
+import ProtectedRoute from './components/ProtectedRoute';
 function App() {
   return (
     <Router>
@@ -15,10 +15,10 @@ function App() {
         <Routes>
 
           <Route path="/" element={<AuthForm />} />
-
+           
          
-          <Route path="/dashboard" element={<Dashboard />} />
-           <Route path="/add-note" element={<AddNote />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+           <Route path="/add-note" element={<ProtectedRoute><AddNote /></ProtectedRoute>} />
           
           {/* <Route path="/changepassword" element={<ChangePassword />} /> */}
         </Routes>

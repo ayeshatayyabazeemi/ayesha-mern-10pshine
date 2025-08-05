@@ -2,7 +2,7 @@ import React from 'react';
 import './SignInForm.css';
 import { motion } from 'framer-motion';
 import { BsPerson, BsLock } from 'react-icons/bs';
-import {useState}from 'react';
+import {useState,useEffect}from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from './AuthContext'; 
@@ -17,6 +17,8 @@ const SignInForm = ({ toggleForm }) => {
     username:"",
     password:""
   })
+  
+
   const handleSignin= async ()=>{
     try{
       const res=await axios.post('http://localhost:5000/api/auth/signin',{
@@ -28,11 +30,11 @@ const SignInForm = ({ toggleForm }) => {
     password:""
     });
     toast.success("Signup successful!");
-    console.log(res);
+    
     setUser(res.data.user);
     localStorage.setItem("jwtToken",res.data.token);
     localStorage.setItem("user",JSON.stringify(res.data.user));
-    navigate('/dashboard');
+    navigate('/dashboard',{replace:true});
 
   }catch(error){
     
