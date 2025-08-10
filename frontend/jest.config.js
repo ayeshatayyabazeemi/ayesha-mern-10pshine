@@ -7,7 +7,17 @@ module.exports = {
     '\\.(css|less|scss)$': 'identity-obj-proxy',
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!axios)' // Force-transform axios (which is ESM)
+    '/node_modules/(?!axios)'
   ],
-  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+  collectCoverageFrom: [
+    "src/**/*.{js,jsx}",
+    "!src/index.js"
+  ],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov'],
+ 
+  testEnvironmentOptions: {},
+  
 };

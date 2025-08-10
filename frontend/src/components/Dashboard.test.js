@@ -10,7 +10,7 @@ import Dashboard from './Dashboard';
 import axios from 'axios';
 import { MemoryRouter } from 'react-router-dom';
 
-// Mock axios
+
 jest.mock('axios');
 
 // Mock NoteCard to avoid deep rendering

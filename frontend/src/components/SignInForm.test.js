@@ -83,7 +83,7 @@ describe('SignInForm Component', () => {
       expect(mockSetUser).toHaveBeenCalledWith(mockUser);
       expect(localStorage.getItem('jwtToken')).toBe(mockToken);
       expect(toast.success).toHaveBeenCalledWith('Signup successful!');
-      expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
+      expect(mockNavigate).toHaveBeenCalledWith('/dashboard',{"replace": true} );
     });
   });
 
