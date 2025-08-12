@@ -6,12 +6,12 @@ WORKDIR /app
 
 # 3️⃣ Copy backend package files and install dependencies
 COPY backend/package*.json ./backend/
-COPY backend/.env ./backend/
+
 RUN cd backend && npm install --production
 
 # 4️⃣ Copy frontend package files and install dependencies + build
 COPY frontend/package*.json ./frontend/
-COPY frontend/.env ./frontend/
+
 RUN cd frontend && npm install && npm run build
 
 # 5️⃣ Copy the rest of the backend and frontend source code
