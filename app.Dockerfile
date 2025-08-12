@@ -6,10 +6,12 @@ WORKDIR /app
 
 # 3️⃣ Copy backend package files and install dependencies
 COPY backend/package*.json ./backend/
+COPY backend/.env ./backend/
 RUN cd backend && npm install --production
 
 # 4️⃣ Copy frontend package files and install dependencies + build
 COPY frontend/package*.json ./frontend/
+COPY frontend/.env ./frontend/
 RUN cd frontend && npm install && npm run build
 
 # 5️⃣ Copy the rest of the backend and frontend source code
@@ -19,8 +21,11 @@ COPY frontend ./frontend
 # 6️⃣ Move frontend build into backend's public folder
 RUN rm -rf backend/public && mkdir -p backend/public && cp -r frontend/build/* backend/public/
 
-# 7️⃣ Expose the backend port
+# 7️⃣ Set environment to production
+ENV NODE_ENV=production
+
+# 8️⃣ Expose the backend port
 EXPOSE 5000
 
-# 8️⃣ Start the backend
+# 9️⃣ Start the backend
 CMD ["node", "backend/server.js"]
