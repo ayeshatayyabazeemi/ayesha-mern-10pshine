@@ -4,6 +4,7 @@
 
 # Ignore environment files
 .env
+**/.env
 .env.local
 
 # Ignore Git
@@ -21,3 +22,6 @@ logs
 # Ignore OS-specific files
 .DS_Store
 Thumbs.db
+dist
+build
+**/coverage
