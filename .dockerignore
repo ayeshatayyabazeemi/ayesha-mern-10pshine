@@ -25,3 +25,12 @@ Thumbs.db
 dist
 build
 **/coverage
+# Ignore frontend tests
+frontend/src/**/*.test.js
+frontend/src/**/*.spec.js
+frontend/src/**/__tests__/
+
+# Ignore backend tests
+backend/tests/
+backend/**/*.test.js
+backend/**/*.spec.js
