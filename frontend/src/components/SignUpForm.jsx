@@ -3,9 +3,10 @@ import React from 'react';
 import './SignUpForm.css';
 import { motion } from 'framer-motion';
 import { BsPerson, BsEnvelope, BsLock } from 'react-icons/bs';
+import { toast } from 'react-toastify';
 import axios from "axios";
 const SignUpForm = ({ toggleForm }) => {
-
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [formdata,setformdata]=useState({
     username:"",
     email:"",
@@ -14,17 +15,26 @@ const SignUpForm = ({ toggleForm }) => {
 
   });
   const handleSignup= async () => {
+    if (!formdata.email || !formdata.password || !formdata.c_password || !formdata.username) {
+  toast.error("Please fill in all fields");
+  return;
+}
         if (formdata.password !== formdata.c_password){
-          alert("password donot match");
+          toast.error("password donot match");
           return;
         }
+        if (!emailRegex.test(formdata.email)) {
+  toast.error("Invalid email format");
+  return;
+}
+
         try{
           const res= await axios.post('http://localhost:5000/api/auth/signup',{
             username: formdata.username,
             email: formdata.email,
             pwd: formdata.password,
           });
-          alert("Signup successful!");
+          toast.success("Signup successful!");
           setformdata({username:"",
     email:"",
     password:"",
@@ -33,7 +43,7 @@ const SignUpForm = ({ toggleForm }) => {
           console.log(res.data);
 
         }catch(error){
-           alert(" Signup failed: " + error.response?.data?.message || error.message);
+           toast.error(" Signup failed: " + error.response?.data?.message || error.message);
           console.error(error);
 
         }
