@@ -11,10 +11,7 @@ Below are sample screenshots illustrating the UI (note list, modal view, etc.):
 
 | Dashboard / Note List | Note Edit / Modal View |
 |------------------------|---------------------------|
-| ![Dashboard screenshot](<img width="1918" height="907" alt="image" src="https://github.com/user-attachments/assets/c2441148-5155-43fc-b808-ea0fddc73c2d" />
- />
-) | ![Modal / editing screenshot](<img width="1916" height="912" alt="image" src="https://github.com/user-attachments/assets/9c8983c6-2346-421d-a1ce-4931b78e7a89" />
-) |
+| ![Dashboard screenshot](<img width="1918" height="907" alt="image" src="https://github.com/user-attachments/assets/c2441148-5155-43fc-b808-ea0fddc73c2d" />) | ![Modal / editing screenshot](<img width="1916" height="912" alt="image" src="https://github.com/user-attachments/assets/9c8983c6-2346-421d-a1ce-4931b78e7a89" />) |
 
 ---
 
@@ -41,6 +38,7 @@ Below are sample screenshots illustrating the UI (note list, modal view, etc.):
 5. **Search** — GET endpoint searches in subject or note content  
 6. **Delete** — DELETE endpoint removes note  
 7. **UI Update** — after delete or update, `refreshKey` triggers refetch
+
 
 
 
